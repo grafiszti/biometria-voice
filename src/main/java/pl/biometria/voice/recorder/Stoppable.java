@@ -1,4 +1,4 @@
-package pl.biometria.voice;
+package pl.biometria.voice.recorder;
 
 public interface Stoppable {
 	void finish();

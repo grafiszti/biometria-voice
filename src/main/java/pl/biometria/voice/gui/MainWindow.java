@@ -35,7 +35,7 @@ public class MainWindow {
   private void initMainFrame() {
     frame = new JFrame("Biometria Voice");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setMinimumSize(new Dimension(640, 480));
+    frame.setMinimumSize(new Dimension(800, 600));
     frame.getContentPane().setLayout(new BorderLayout());
   }
 

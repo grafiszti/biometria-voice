@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import pl.biometria.voice.gui.MainWindow;
+import pl.biometria.voice.recorder.Recorder;
+import pl.biometria.voice.recorder.Stopper;
 
 import com.badlogic.gdx.audio.analysis.FFT;
 import com.badlogic.gdx.audio.io.WavDecoder;
@@ -18,7 +20,10 @@ public class Main {
 
   public static void main(String[] args) {
     MainWindow.run();
+    // oldCode();
+  }
 
+  private static void oldCode() {
     final Recorder recorder = new Recorder();
 
     // creates a new thread that waits for a specified
