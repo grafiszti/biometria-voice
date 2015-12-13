@@ -73,8 +73,10 @@ public class ActionsTab extends JPanel {
     buttonRecord.setBounds(600, 360, 117, 29);
     buttonRecord.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        recordSoundFile();
-        updateInfoLastRecordedFile();
+        if (recorder == null || !recorder.isRecording()) {
+          recordSoundFile();
+          updateInfoLastRecordedFile();
+        }
       }
     });
     add(buttonRecord);
@@ -85,8 +87,6 @@ public class ActionsTab extends JPanel {
     stopper = new Stopper(Constants.RECORD_TIME, recorder);
     stopper.start();
     recorder.start();
-    while (recorder.isRecording()) {
-    }
     currentRecordedFile = recorder.getAudioFile();
   }
 
