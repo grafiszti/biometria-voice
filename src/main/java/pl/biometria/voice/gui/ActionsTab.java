@@ -20,8 +20,9 @@ import pl.biometria.voice.recorder.Recorder;
 import pl.biometria.voice.recorder.Stopper;
 import pl.biometria.voice.utils.CollectionUtils;
 
+import com.bitsinharmony.recognito.MatchResult;
 import com.bitsinharmony.recognito.Recognito;
-import com.bitsinharmony.recognito.VoicePrint;
+import com.google.common.collect.Lists;
 
 public class ActionsTab extends JPanel {
   private static final long serialVersionUID = 1L;
@@ -31,6 +32,7 @@ public class ActionsTab extends JPanel {
   JButton buttonSave;
   JButton buttonVerify;
   JButton buttonPlay;
+  JButton buttonSaveDb;
   JTextField newNameTextField;
   JLabel labelName;
   JLabel infoLabel;
@@ -55,6 +57,7 @@ public class ActionsTab extends JPanel {
     initButtonPlay();
     initButtonSave();
     initButtonVerify();
+    initButtonSaveDb();
     initNameTextField();
     initLabelName();
     initInfoLabel();
@@ -133,7 +136,14 @@ public class ActionsTab extends JPanel {
     buttonSave.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         try {
-          VoicePrint print = recognito.createVoicePrint("Elvis", new File(Constants.AUDIO_SAMPLE_NAME));
+          String newName = newNameTextField.getText();
+          File sampleFile = new File(Constants.AUDIO_SAMPLE_NAME);
+          if (newName.isEmpty() || sampleFile == null) {
+            infoLabel.setText("Errors in saving");
+          } else {
+            recognito.createVoicePrint(newNameTextField.getText(), new File(Constants.AUDIO_SAMPLE_NAME));
+            infoLabel.setText("Saved sucessfully!");
+          }
         } catch (Exception exception) {
           exception.printStackTrace();
         }
@@ -145,7 +155,45 @@ public class ActionsTab extends JPanel {
   private void initButtonVerify() {
     buttonVerify = new JButton("Verify");
     buttonVerify.setBounds(600, 480, 117, 29);
+    buttonVerify.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        List<MatchResult<String>> matches = Lists.newArrayList();
+        try {
+          matches = recognito.identify(currentRecordedFile);
+        } catch (Exception exception) {
+          exception.printStackTrace();
+        }
+
+        if (!matches.isEmpty()) {
+          MatchResult<String> match = matches.get(0);
+          String recognitionInfo = buildRecognitionInfo(match.getKey(), new Integer(match.getLikelihoodRatio()));
+          infoLabel.setText(recognitionInfo);
+        }
+      }
+    });
     add(buttonVerify);
+  }
+
+  private String buildRecognitionInfo(String name, Integer likelihood) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("<html>");
+    sb.append("Voice sample recognized as: ").append("<br>");
+    sb.append("Name : ").append(name).append("<br>");
+    sb.append("Likelihood : ").append(likelihood).append(" %");
+    sb.append("</html>");
+    return sb.toString();
+  }
+
+  private void initButtonSaveDb() {
+    buttonSaveDb = new JButton("Save db");
+    buttonSaveDb.setBounds(400, 480, 117, 29);
+    buttonSaveDb.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        List<NamedVoicePrint> allNamedVoicePrint = CollectionUtils.convertMapNameVoicePrintToNamedVoicePrintList(recognito.getStore());
+        namedVoicePrintDao.saveAll(allNamedVoicePrint);
+      }
+    });
+    add(buttonSaveDb);
   }
 
   private void initNameTextField() {
@@ -163,7 +211,7 @@ public class ActionsTab extends JPanel {
 
   private void initInfoLabel() {
     infoLabel = new JLabel("Info: ");
-    infoLabel.setBounds(450, 25, 200, 30);
+    infoLabel.setBounds(450, 0, 200, 200);
     add(infoLabel);
   }
 
