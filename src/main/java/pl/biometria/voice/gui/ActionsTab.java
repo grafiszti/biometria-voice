@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -11,10 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import pl.biometria.voice.Constants;
+import pl.biometria.voice.db.NamedVoicePrintDao;
 import pl.biometria.voice.gui.components.ImagePanel;
 import pl.biometria.voice.player.WavPlayer;
+import pl.biometria.voice.recognitio.utils.NamedVoicePrint;
 import pl.biometria.voice.recorder.Recorder;
 import pl.biometria.voice.recorder.Stopper;
+import pl.biometria.voice.utils.CollectionUtils;
 
 import com.bitsinharmony.recognito.Recognito;
 import com.bitsinharmony.recognito.VoicePrint;
@@ -33,6 +37,7 @@ public class ActionsTab extends JPanel {
   JLabel lastRecordedFileInfoLabel;
 
   Recognito<String> recognito;
+  NamedVoicePrintDao namedVoicePrintDao;
 
   File currentRecordedFile;
 
@@ -55,7 +60,9 @@ public class ActionsTab extends JPanel {
     initInfoLabel();
     initLastRecordedFileInfoLabel();
 
-    recognito = new Recognito<String>(Constants.AUDIO_SAMPLE_RATE);
+    namedVoicePrintDao = new NamedVoicePrintDao();
+
+    initRecognitio();
   }
 
   private void initRecordButton() {
@@ -164,5 +171,10 @@ public class ActionsTab extends JPanel {
     lastRecordedFileInfoLabel = new JLabel("File info: ");
     lastRecordedFileInfoLabel.setBounds(450, 75, 200, 300);
     add(lastRecordedFileInfoLabel);
+  }
+
+  private void initRecognitio() {
+    List<NamedVoicePrint> allNamedVoicePrints = namedVoicePrintDao.findAll();
+    recognito = new Recognito<String>(Constants.AUDIO_SAMPLE_RATE, CollectionUtils.convertNamedVoicePrintsToMap(allNamedVoicePrints));
   }
 }
