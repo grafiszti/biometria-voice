@@ -33,10 +33,11 @@ public class ActionsTab extends JPanel {
   JButton buttonVerify;
   JButton buttonPlay;
   JButton buttonSaveDb;
-  JTextField newNameTextField;
+  JTextField textFieldNewName;
   JLabel labelName;
-  JLabel infoLabel;
-  JLabel lastRecordedFileInfoLabel;
+  JLabel labelAutorizationWord;
+  JLabel labelInfo;
+  JLabel labelLastRecordedFileInfo;
 
   Recognito<String> recognito;
   NamedVoicePrintDao namedVoicePrintDao;
@@ -49,26 +50,25 @@ public class ActionsTab extends JPanel {
   public ActionsTab() {
     setLayout(null);
     initializeComponents();
+    namedVoicePrintDao = new NamedVoicePrintDao();
+    initRecognitio();
   }
 
   private void initializeComponents() {
-    initRecordButton();
+    initButtonRecord();
     initHistogramImage();
     initButtonPlay();
     initButtonSave();
     initButtonVerify();
     initButtonSaveDb();
-    initNameTextField();
+    initTextFieldName();
     initLabelName();
-    initInfoLabel();
-    initLastRecordedFileInfoLabel();
-
-    namedVoicePrintDao = new NamedVoicePrintDao();
-
-    initRecognitio();
+    initLabelInfo();
+    initLabelLastRecordedFileInfo();
+    initLabelAutorizationWord();
   }
 
-  private void initRecordButton() {
+  private void initButtonRecord() {
     buttonRecord = new JButton("Record");
     buttonRecord.setBounds(600, 360, 117, 29);
     buttonRecord.addActionListener(new ActionListener() {
@@ -92,7 +92,7 @@ public class ActionsTab extends JPanel {
 
   private void updateInfoLastRecordedFile() {
     String lastRecordedFileInfo = buildLastRecordedFileInfo();
-    lastRecordedFileInfoLabel.setText(lastRecordedFileInfo);
+    labelLastRecordedFileInfo.setText(lastRecordedFileInfo);
   }
 
   private String buildLastRecordedFileInfo() {
@@ -120,7 +120,7 @@ public class ActionsTab extends JPanel {
         if (currentRecordedFile != null) {
           playRecordedSound();
         } else {
-          infoLabel.setText("Brak nagranego pliku dzwieku");
+          labelInfo.setText("Brak nagranego pliku dzwieku");
         }
       }
     });
@@ -138,13 +138,13 @@ public class ActionsTab extends JPanel {
     buttonSave.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         try {
-          String newName = newNameTextField.getText();
+          String newName = textFieldNewName.getText();
           File sampleFile = new File(Constants.AUDIO_SAMPLE_NAME);
           if (newName.isEmpty() || sampleFile == null) {
-            infoLabel.setText("Errors in saving");
+            labelInfo.setText("Errors in saving");
           } else {
-            recognito.createVoicePrint(newNameTextField.getText(), new File(Constants.AUDIO_SAMPLE_NAME));
-            infoLabel.setText("Saved sucessfully!");
+            recognito.createVoicePrint(textFieldNewName.getText(), new File(Constants.AUDIO_SAMPLE_NAME));
+            labelInfo.setText("Saved sucessfully!");
           }
         } catch (Exception exception) {
           exception.printStackTrace();
@@ -169,7 +169,7 @@ public class ActionsTab extends JPanel {
         if (!matches.isEmpty()) {
           MatchResult<String> match = matches.get(0);
           String recognitionInfo = buildRecognitionInfo(match.getKey(), new Integer(match.getLikelihoodRatio()));
-          infoLabel.setText(recognitionInfo);
+          labelInfo.setText(recognitionInfo);
         }
       }
     });
@@ -198,11 +198,11 @@ public class ActionsTab extends JPanel {
     add(buttonSaveDb);
   }
 
-  private void initNameTextField() {
-    newNameTextField = new JTextField();
-    newNameTextField.setBounds(75, 322, 634, 28);
-    add(newNameTextField);
-    newNameTextField.setColumns(10);
+  private void initTextFieldName() {
+    textFieldNewName = new JTextField();
+    textFieldNewName.setBounds(75, 322, 634, 28);
+    add(textFieldNewName);
+    textFieldNewName.setColumns(10);
   }
 
   private void initLabelName() {
@@ -211,16 +211,22 @@ public class ActionsTab extends JPanel {
     add(labelName);
   }
 
-  private void initInfoLabel() {
-    infoLabel = new JLabel("Info: ");
-    infoLabel.setBounds(450, 0, 200, 200);
-    add(infoLabel);
+  private void initLabelInfo() {
+    labelInfo = new JLabel("");
+    labelInfo.setBounds(450, 0, 200, 200);
+    add(labelInfo);
   }
 
-  private void initLastRecordedFileInfoLabel() {
-    lastRecordedFileInfoLabel = new JLabel("File info: ");
-    lastRecordedFileInfoLabel.setBounds(450, 75, 200, 300);
-    add(lastRecordedFileInfoLabel);
+  private void initLabelAutorizationWord() {
+    labelAutorizationWord = new JLabel("Autorization word: AUTORYZACJA");
+    labelAutorizationWord.setBounds(10, 300, 300, 16);
+    add(labelAutorizationWord);
+  }
+
+  private void initLabelLastRecordedFileInfo() {
+    labelLastRecordedFileInfo = new JLabel("");
+    labelLastRecordedFileInfo.setBounds(450, 75, 200, 300);
+    add(labelLastRecordedFileInfo);
   }
 
   private void initRecognitio() {
