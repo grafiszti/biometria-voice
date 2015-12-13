@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
 public class ActionsTab extends JPanel {
   private static final long serialVersionUID = 1L;
 
-  JButton recordButton;
+  JButton buttonRecord;
   ImagePanel histogramImage;
   JButton buttonSave;
   JButton buttonVerify;
@@ -43,8 +43,8 @@ public class ActionsTab extends JPanel {
 
   File currentRecordedFile;
 
-  final Recorder recorder = new Recorder();
-  Thread stopper = new Stopper(Constants.RECORD_TIME, recorder);
+  Recorder recorder;
+  Thread stopper;
 
   public ActionsTab() {
     setLayout(null);
@@ -69,18 +69,20 @@ public class ActionsTab extends JPanel {
   }
 
   private void initRecordButton() {
-    recordButton = new JButton("Record");
-    recordButton.setBounds(600, 360, 117, 29);
-    recordButton.addActionListener(new ActionListener() {
+    buttonRecord = new JButton("Record");
+    buttonRecord.setBounds(600, 360, 117, 29);
+    buttonRecord.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         recordSoundFile();
         updateInfoLastRecordedFile();
       }
     });
-    add(recordButton);
+    add(buttonRecord);
   }
 
   private void recordSoundFile() {
+    recorder = new Recorder();
+    stopper = new Stopper(Constants.RECORD_TIME, recorder);
     stopper.start();
     recorder.start();
     while (recorder.isRecording()) {
