@@ -11,11 +11,12 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
+import pl.biometria.voice.Constants;
+
 public class Recorder implements Stoppable {
   Boolean recording;
 
-  // path of the wav file
-  File wavFile = new File("RecordAudio.wav");
+  File wavFile = new File(Constants.AUDIO_SAMPLE_NAME);
 
   // format of audio file
   AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
@@ -27,7 +28,7 @@ public class Recorder implements Stoppable {
    * Defines an audio format
    */
   AudioFormat getAudioFormat() {
-    float sampleRate = 22000;
+    float sampleRate = Constants.AUDIO_SAMPLE_RATE;
     int sampleSizeInBits = 16;
     int channels = 1;
     boolean signed = true;

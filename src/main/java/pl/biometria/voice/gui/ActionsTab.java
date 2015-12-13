@@ -3,20 +3,24 @@ package pl.biometria.voice.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import pl.biometria.voice.Constants;
 import pl.biometria.voice.gui.components.ImagePanel;
 import pl.biometria.voice.player.WavPlayer;
 import pl.biometria.voice.recorder.Recorder;
 import pl.biometria.voice.recorder.Stopper;
 
+import com.bitsinharmony.recognito.Recognito;
+import com.bitsinharmony.recognito.VoicePrint;
+
 public class ActionsTab extends JPanel {
   private static final long serialVersionUID = 1L;
-  static final Integer RECORD_TIME = 1000; // 1 minute
 
   JButton recordButton;
   ImagePanel histogramImage;
@@ -26,11 +30,14 @@ public class ActionsTab extends JPanel {
   JTextField newNameTextField;
   JLabel labelName;
   JLabel infoLabel;
+  JLabel lastRecordedFileInfoLabel;
+
+  Recognito<String> recognito;
 
   File currentRecordedFile;
 
   final Recorder recorder = new Recorder();
-  Thread stopper = new Stopper(RECORD_TIME, recorder);
+  Thread stopper = new Stopper(Constants.RECORD_TIME, recorder);
 
   public ActionsTab() {
     setLayout(null);
@@ -46,6 +53,9 @@ public class ActionsTab extends JPanel {
     initNameTextField();
     initLabelName();
     initInfoLabel();
+    initLastRecordedFileInfoLabel();
+
+    recognito = new Recognito<String>(Constants.AUDIO_SAMPLE_RATE);
   }
 
   private void initRecordButton() {
@@ -54,6 +64,7 @@ public class ActionsTab extends JPanel {
     recordButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         recordSoundFile();
+        updateInfoLastRecordedFile();
       }
     });
     add(recordButton);
@@ -67,9 +78,25 @@ public class ActionsTab extends JPanel {
     currentRecordedFile = recorder.getAudioFile();
   }
 
+  private void updateInfoLastRecordedFile() {
+    String lastRecordedFileInfo = buildLastRecordedFileInfo();
+    lastRecordedFileInfoLabel.setText(lastRecordedFileInfo);
+  }
+
+  private String buildLastRecordedFileInfo() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("<html>");
+    sb.append("File info:").append("<br>");
+    sb.append("Filename: ").append(currentRecordedFile.getName()).append("<br>");
+    sb.append("Size: ").append(currentRecordedFile.length()).append("<br>");
+    sb.append("Last modified: ").append(new Date(currentRecordedFile.lastModified()).toString()).append("<br>");
+    sb.append("</html>");
+    return sb.toString();
+  }
+
   private void initHistogramImage() {
     histogramImage = new ImagePanel(new File("res/kompot.jpg"));
-    histogramImage.setBounds(10, 10, 500, 300);
+    histogramImage.setBounds(10, 10, 400, 250);
     add(histogramImage);
   }
 
@@ -96,6 +123,15 @@ public class ActionsTab extends JPanel {
   private void initButtonSave() {
     buttonSave = new JButton("Save");
     buttonSave.setBounds(600, 440, 117, 29);
+    buttonSave.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        try {
+          VoicePrint print = recognito.createVoicePrint("Elvis", new File(Constants.AUDIO_SAMPLE_NAME));
+        } catch (Exception exception) {
+          exception.printStackTrace();
+        }
+      }
+    });
     add(buttonSave);
   }
 
@@ -120,7 +156,13 @@ public class ActionsTab extends JPanel {
 
   private void initInfoLabel() {
     infoLabel = new JLabel("Info: ");
-    infoLabel.setBounds(522, 24, 198, 29);
+    infoLabel.setBounds(450, 25, 200, 30);
     add(infoLabel);
+  }
+
+  private void initLastRecordedFileInfoLabel() {
+    lastRecordedFileInfoLabel = new JLabel("File info: ");
+    lastRecordedFileInfoLabel.setBounds(450, 75, 200, 300);
+    add(lastRecordedFileInfoLabel);
   }
 }
