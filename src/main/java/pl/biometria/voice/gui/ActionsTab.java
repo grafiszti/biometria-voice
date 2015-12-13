@@ -5,18 +5,14 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import pl.biometria.voice.gui.components.ImagePanel;
+import pl.biometria.voice.player.WavPlayer;
 import pl.biometria.voice.recorder.Recorder;
 import pl.biometria.voice.recorder.Stopper;
-
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 
 public class ActionsTab extends JPanel {
   private static final long serialVersionUID = 1L;
@@ -93,9 +89,8 @@ public class ActionsTab extends JPanel {
   }
 
   private void playRecordedSound() {
-    FileHandle fileHandle = new FileHandle(currentRecordedFile);
-    Sound wavSound = Gdx.audio.newSound(Gdx.files.internal("RecordAudio.wav"));
-    wavSound.play();
+    WavPlayer player = new WavPlayer(recorder.getAudioFile());
+    player.play();
   }
 
   private void initButtonSave() {
