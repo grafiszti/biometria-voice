@@ -107,7 +107,7 @@ public class ActionsTab extends JPanel {
   private void initHistogramImage() {
     histogramImage = new ImagePanel(new File("res/kompot.jpg"));
     histogramImage.setBounds(10, 10, 400, 250);
-    add(histogramImage);
+    //add(histogramImage);
   }
 
   private void initButtonPlay() {
