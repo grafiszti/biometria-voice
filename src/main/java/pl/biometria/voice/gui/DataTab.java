@@ -1,6 +1,6 @@
 package pl.biometria.voice.gui;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class DataTab extends JPanel {
 
