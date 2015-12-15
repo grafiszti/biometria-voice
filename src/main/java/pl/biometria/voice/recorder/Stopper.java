@@ -1,10 +1,10 @@
 package pl.biometria.voice.recorder;
 
 public class Stopper extends Thread implements Runnable {
-    Integer recordTime;
+    long recordTime;
     Stoppable thread;
 
-    public Stopper(Integer recordTime, Stoppable thread) {
+    public Stopper(long recordTime, Stoppable thread) {
         this.recordTime = recordTime;
         this.thread = thread;
     }

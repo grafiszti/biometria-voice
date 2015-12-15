@@ -3,26 +3,11 @@ package pl.biometria.voice.recognition.algorithms.windowing;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Hamming Window Function
- * <p>
- * Threading : this class is thread safe
- * </p>
- *
- * @see <a href="http://en.wikipedia.org/wiki/Window_function#Hamming_window">Hamming window<a/>
- * @see WindowFunction
- */
 public class HammingWindowFunction
         extends WindowFunction {
 
     private static final Map<Integer, double[]> factorsByWindowSize = new HashMap<Integer, double[]>();
 
-    /**
-     * Constructor imposed by WindowFunction
-     *
-     * @param windowSize the windowSize
-     * @see WindowFunction#WindowFunction(int)
-     */
     public HammingWindowFunction(int windowSize) {
         super(windowSize);
     }

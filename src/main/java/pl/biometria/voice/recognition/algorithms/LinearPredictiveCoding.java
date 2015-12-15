@@ -2,20 +2,6 @@ package pl.biometria.voice.recognition.algorithms;
 
 import java.util.Arrays;
 
-/**
- * Linear Predictive Coding algorithm
- * <p>
- * Since this algorithm is generally used in an iterative process over small windows of audio data,
- * it's output reuses the same buffers over and over again in order to avoid memory allocation
- * and garbage collection alltogether. It's up to the client to copy the returned data should it
- * want to keep it as-is and not use it in further processing.
- * </p>
- * <p>
- * Threading : this class is _NOT_ thread safe
- * </p>
- *
- * @see <a href="http://en.wikipedia.org/wiki/Linear_predictive_coding"><a/>
- */
 public class LinearPredictiveCoding {
 
     private final int windowSize;
@@ -25,13 +11,6 @@ public class LinearPredictiveCoding {
     private final double[] k;
     private final double[][] matrix;
 
-
-    /**
-     * Constructor for LinearPredictiveCoding
-     *
-     * @param windowSize the window size
-     * @param poles
-     */
     public LinearPredictiveCoding(int windowSize, int poles) {
         this.windowSize = windowSize;
         this.poles = poles;
@@ -41,12 +20,6 @@ public class LinearPredictiveCoding {
         this.matrix = new double[poles][poles];
     }
 
-    /**
-     * Apply Linear Predictive Coding
-     *
-     * @param window windowed part of voice sample, must be of the same size as the windowSize passed in constructor
-     * @return an array of size 2 containing LPC coefficients in 0 and error coefficients in 1
-     */
     public double[][] applyLinearPredictiveCoding(double[] window) {
 
         if (windowSize != window.length) {
