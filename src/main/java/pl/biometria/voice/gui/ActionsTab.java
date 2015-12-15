@@ -40,7 +40,6 @@ public class ActionsTab extends JPanel {
   JLabel labelLastRecordedFileInfo;
 
   Recognito<String> recognito;
-  NamedVoicePrintDao namedVoicePrintDao;
 
   File currentRecordedFile;
 
@@ -50,7 +49,6 @@ public class ActionsTab extends JPanel {
   public ActionsTab() {
     setLayout(null);
     initializeComponents();
-    namedVoicePrintDao = new NamedVoicePrintDao();
     initRecognitio();
   }
 
@@ -138,16 +136,11 @@ public class ActionsTab extends JPanel {
     buttonSave.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         try {
-          String newName = textFieldNewName.getText();
-          File sampleFile = new File(Constants.AUDIO_SAMPLE_NAME);
-          if (newName.isEmpty() || sampleFile == null) {
-            labelInfo.setText("Errors in saving");
-          } else {
-            recognito.createVoicePrint(textFieldNewName.getText(), new File(Constants.AUDIO_SAMPLE_NAME));
-            labelInfo.setText("Saved sucessfully!");
-          }
+          String newName = textFieldNewName.getText().isEmpty() ? Constants.DEFAULT_USERNAME : textFieldNewName.getText();
+          recognito.createVoicePrint(textFieldNewName.getText(), new File(Constants.AUDIO_SAMPLE_NAME));
+          labelInfo.setText("Saved sucessfully as " + newName);
         } catch (Exception exception) {
-          exception.printStackTrace();
+          labelInfo.setText("Errors in saving, there is no voice sample\n" + exception.getStackTrace());
         }
       }
     });
@@ -192,7 +185,8 @@ public class ActionsTab extends JPanel {
     buttonSaveDb.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         List<NamedVoicePrint> allNamedVoicePrint = CollectionUtils.convertMapNameVoicePrintToNamedVoicePrintList(recognito.getStore());
-        namedVoicePrintDao.saveAll(allNamedVoicePrint);
+        NamedVoicePrintDao.getInstance().saveAll(allNamedVoicePrint);
+        labelInfo.setText("DB Saved");
       }
     });
     add(buttonSaveDb);
@@ -213,7 +207,7 @@ public class ActionsTab extends JPanel {
 
   private void initLabelInfo() {
     labelInfo = new JLabel("");
-    labelInfo.setBounds(450, 0, 200, 200);
+    labelInfo.setBounds(450, 0, 300, 200);
     add(labelInfo);
   }
 
@@ -230,7 +224,7 @@ public class ActionsTab extends JPanel {
   }
 
   private void initRecognitio() {
-    List<NamedVoicePrint> allNamedVoicePrints = namedVoicePrintDao.findAll();
+    List<NamedVoicePrint> allNamedVoicePrints = NamedVoicePrintDao.getInstance().findAll();
     recognito = new Recognito<String>(Constants.AUDIO_SAMPLE_RATE, CollectionUtils.convertNamedVoicePrintsToMap(allNamedVoicePrints));
   }
 }
