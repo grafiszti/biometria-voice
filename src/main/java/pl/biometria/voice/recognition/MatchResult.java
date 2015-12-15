@@ -1,4 +1,4 @@
-package pl.biometria.voice;
+package pl.biometria.voice.recognition;
 
 /**
  * MatchResult represents the result of matching a <code>VoicePrint</code> against a given voice sample.

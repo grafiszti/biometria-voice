@@ -1,4 +1,4 @@
-package pl.biometria.voice;
+package pl.biometria.voice.recognition;
 
 
 import pl.biometria.voice.distances.DistanceCalculator;

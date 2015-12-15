@@ -1,7 +1,7 @@
 package pl.biometria.voice.recognition.utils;
 
 
-import pl.biometria.voice.VoicePrint;
+import pl.biometria.voice.recognition.VoicePrint;
 
 import java.io.Serializable;
 
