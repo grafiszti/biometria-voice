@@ -1,22 +1,22 @@
 package pl.biometria.voice.gui;
 
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
 public class MainTabbedPane extends JTabbedPane {
-  private static final long serialVersionUID = 1382591565017588576L;
+    private static final long serialVersionUID = 1382591565017588576L;
 
-  ActionsTab actionsTab;
-  DataTab dataTab;
+    ActionsTab actionsTab;
+    DataTab dataTab;
 
-  public MainTabbedPane() {
-    initializeTabs();
-  }
+    public MainTabbedPane() {
+        initializeTabs();
+    }
 
-  private void initializeTabs() {
-    actionsTab = new ActionsTab();
-    this.addTab("Actions", actionsTab);
+    private void initializeTabs() {
+        actionsTab = new ActionsTab();
+        this.addTab("Actions", actionsTab);
 
-    dataTab = new DataTab();
-    this.addTab("Data", dataTab);
-  }
+        dataTab = new DataTab();
+        this.addTab("Data", dataTab);
+    }
 }
