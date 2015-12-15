@@ -1,4 +1,4 @@
-package pl.biometria.voice.algorithms;
+package pl.biometria.voice.recognition.algorithms;
 
 import java.util.Arrays;
 

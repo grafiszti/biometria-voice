@@ -1,4 +1,4 @@
-package pl.biometria.voice.enhancements;
+package pl.biometria.voice.recognition.enhancements;
 
 /**
  * Nomalizes gain of the given voice sample.

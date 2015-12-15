@@ -1,4 +1,4 @@
-package pl.biometria.voice.distances;
+package pl.biometria.voice.recognition.distances;
 
 public abstract class DistanceCalculator {
 

@@ -1,18 +1,20 @@
 package pl.biometria.voice.gui;
 
 import com.google.common.collect.Lists;
+
 import pl.biometria.voice.Constants;
 import pl.biometria.voice.MatchResult;
 import pl.biometria.voice.Recognito;
 import pl.biometria.voice.db.NamedVoicePrintDao;
 import pl.biometria.voice.gui.components.ImagePanel;
 import pl.biometria.voice.player.WavPlayer;
-import pl.biometria.voice.recognitio.utils.NamedVoicePrint;
+import pl.biometria.voice.recognition.utils.NamedVoicePrint;
 import pl.biometria.voice.recorder.Recorder;
 import pl.biometria.voice.recorder.Stopper;
 import pl.biometria.voice.utils.CollectionUtils;
 
 import javax.swing.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;

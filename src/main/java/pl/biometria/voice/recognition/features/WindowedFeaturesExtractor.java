@@ -1,4 +1,4 @@
-package pl.biometria.voice.features;
+package pl.biometria.voice.recognition.features;
 
 /**
  * Base class for windowed features extractor

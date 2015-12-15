@@ -1,8 +1,9 @@
 package pl.biometria.voice.db;
 
 import com.google.common.collect.Lists;
+
 import pl.biometria.voice.Constants;
-import pl.biometria.voice.recognitio.utils.NamedVoicePrint;
+import pl.biometria.voice.recognition.utils.NamedVoicePrint;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

@@ -1,4 +1,4 @@
-package pl.biometria.voice.features;
+package pl.biometria.voice.recognition.features;
 
 
 public interface FeaturesExtractor<T> {

@@ -1,4 +1,4 @@
-package pl.biometria.voice.recognitio.utils;
+package pl.biometria.voice.recognition.utils;
 
 
 import pl.biometria.voice.VoicePrint;

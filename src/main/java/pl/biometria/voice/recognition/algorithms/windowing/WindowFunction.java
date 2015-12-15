@@ -1,4 +1,4 @@
-package pl.biometria.voice.algorithms.windowing;
+package pl.biometria.voice.recognition.algorithms.windowing;
 
 
 /**

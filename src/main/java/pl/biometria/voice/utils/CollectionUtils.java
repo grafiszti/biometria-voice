@@ -2,8 +2,9 @@ package pl.biometria.voice.utils;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 import pl.biometria.voice.VoicePrint;
-import pl.biometria.voice.recognitio.utils.NamedVoicePrint;
+import pl.biometria.voice.recognition.utils.NamedVoicePrint;
 
 import java.util.List;
 import java.util.Map;

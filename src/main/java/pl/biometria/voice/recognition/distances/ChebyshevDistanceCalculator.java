@@ -1,4 +1,4 @@
-package pl.biometria.voice.distances;
+package pl.biometria.voice.recognition.distances;
 
 /**
  * Chebyshev distance implementation (a.k.a Chessboard/Manhattan)

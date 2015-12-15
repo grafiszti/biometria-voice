@@ -1,4 +1,4 @@
-package pl.biometria.voice.vad;
+package pl.biometria.voice.recognition.vad;
 
 import java.util.Arrays;
 
