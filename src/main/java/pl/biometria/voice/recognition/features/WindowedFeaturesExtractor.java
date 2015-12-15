@@ -1,14 +1,6 @@
 package pl.biometria.voice.recognition.features;
 
-/**
- * Base class for windowed features extractor
- * <p>
- * Constructor computes default window size by calling {@link #getWindowSize(float)}. <br/>
- *
- * @param <T> the kind of features to extract, specified by implementing classes
- * @see {@link #getWindowSize(float)}
- * </p>
- */
+
 public abstract class WindowedFeaturesExtractor<T>
         implements FeaturesExtractor<T> {
 
@@ -18,11 +10,6 @@ public abstract class WindowedFeaturesExtractor<T>
     protected final int windowSize;
     protected final float sampleRate;
 
-    /**
-     * Base constructor required by this abstract class
-     *
-     * @param sampleRate the sample rate of the voice samples, minimum 8000.0
-     */
     public WindowedFeaturesExtractor(float sampleRate) {
         if (sampleRate < MIN_SAMPLE_RATE) {
             throw new IllegalArgumentException("Sample rate should be at least 8000 Hz");
@@ -31,23 +18,8 @@ public abstract class WindowedFeaturesExtractor<T>
         this.windowSize = getWindowSize(sampleRate);
     }
 
-    /* (non-Javadoc)
-     * @see com.recognito.processing.features.FeaturesExtractor#extractFeatures(double[])
-     */
     public abstract T extractFeatures(double[] voiceSample);
 
-    /**
-     * Called by the constructor of this class.
-     * This implementation delegates to {@link #getClosestPowerOfTwoWindowSize(float, int)}
-     * with default targetSizeInMillis value
-     * <p>
-     * Implementing classes may wish to override this method by delegating with another target value in millis
-     * or implement another logic alltogether
-     * </p>
-     *
-     * @param sampleRate the sample rate in Hz (times per second), minimum 8000.0
-     * @return the window size
-     */
     protected int getWindowSize(float sampleRate) {
         return getClosestPowerOfTwoWindowSize(sampleRate, DEFAULT_TARGET_WINDOW_LENGTH_IN_MILLIS);
     }

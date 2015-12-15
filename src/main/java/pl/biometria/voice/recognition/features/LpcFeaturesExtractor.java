@@ -27,10 +27,12 @@ public class LpcFeaturesExtractor extends WindowedFeaturesExtractor<double[]> {
     int counter = 0;
     int halfWindowLength = windowSize / 2;
 
+    // poruszamy sie o polowe dlugosci okna
     for (int i = 0; (i + windowSize) <= voiceSample.length; i += halfWindowLength) {
 
       System.arraycopy(voiceSample, i, audioWindow, 0, windowSize);
 
+      // IMPORTANT: poniższy kod modyfikuje zawartośc tablicy audioWindow
       windowFunction.applyFunction(audioWindow);
       double[] lpcCoeffs = lpc.applyLinearPredictiveCoding(audioWindow)[0];
 
