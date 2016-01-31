@@ -93,7 +93,7 @@ public class DataTab extends JPanel {
 
   private void initLabelInfo() {
     labelInfo = new JLabel("Info: ");
-    labelInfo.setBounds(119, 5, 61, 16);
+    labelInfo.setBounds(119, 5, 61, 200);
     add(labelInfo);
   }
 
